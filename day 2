@@ -1,0 +1,197 @@
+//1. Two Sum
+
+// class Solution {
+// public:
+//     vector<int> twoSum(vector<int>& nums, int target) {
+//         int n = nums.size();
+//         vector<int> ans ;
+//         for(int i =0 ; i < n ; i++){
+//             for(int j = i+1 ; j < n ; j++){
+//                 if(nums[i] + nums[j] == target){
+//                     ans.push_back(i);
+//                     ans.push_back(j);
+//                     return ans ;
+//                 }
+              
+//             }
+//         }
+//         return ans ;
+//     }
+// };
+
+// 75. Sort Colors
+
+// class Solution {
+// public:
+//     void sortColors(vector<int>& nums) {
+//      int start =0;
+//      int i =0;
+//      int end = nums.size()-1;
+
+//      while(i<=end){
+//         if(nums[i]==0){
+//             swap(nums[i],nums[start]);
+//             i++;
+//             start++;
+//         }
+//         else if (nums[i]==1){
+//             i++;
+//         }
+//         else {swap(nums[i],nums[end]);
+//         end--;
+//         }
+//      }   
+//     }
+// };
+
+// 169. Majority Element
+
+// class Solution {
+// public:
+//     int majorityElement(vector<int>& nums) {
+//         sort(nums.begin() , nums.end());
+//         int ans = nums[nums.size()/2];
+//         return ans ;
+//     }
+// };
+
+// 53. Maximum Subarray
+
+// class Solution {
+// public:
+//     int maxSubArray(vector<int>& nums) {
+//        int res = *max_element(nums.begin(), nums.end());
+//        int currMax =0;
+//        int currMin =0;
+
+//        for(int n : nums){
+//         int temp = currMax + n;
+//         currMax = max({temp, currMin + n, n});
+//         currMin = min({temp, currMin + n, n});
+
+//         res = max(res, currMax);
+//        }
+//        return res ;
+//     }
+// };
+
+// 121. Best Time to Buy and Sell Stock
+// class Solution {
+// public:
+//     int maxProfit(vector<int>& prices) {
+//         int buy = prices[0];
+//         int profit = 0;
+//         for (int i = 1; i < prices.size(); i++) {
+//             if (prices[i] < buy) {
+//                 buy = prices[i];
+//             } else if (prices[i] - buy > profit) {
+//                 profit = prices[i] - buy;
+//             }
+//         }
+//         return profit;
+//     }
+// };
+
+// 2149. Rearrange Array Elements by Sign
+// class Solution {
+// public:
+//     vector<int> rearrangeArray(vector<int>& nums) {
+//         vector<int>even,odd,ans;
+        
+//         for(int i =0;i<nums.size();i++){
+//             if(nums[i]>0)even.push_back(nums[i]);
+//             else odd.push_back(nums[i]);
+//         }
+
+//         int ind1=0,ind2=0;
+        
+//         while(ind2<nums.size()/2){
+//             ans.push_back(even[ind1]);
+//             ind1++;
+//             ans.push_back(odd[ind2]);
+//             ind2++;
+//         }
+//         return ans;
+//     }
+// };
+
+// 15.3Sum
+// class Solution {
+// public:
+//     vector<vector<int>> threeSum(vector<int>& nums) {
+//         sort(nums.begin() , nums.end());
+//         vector<vector<int>> temp ;
+//         for(int i =0 ; i < nums.size() ; i++){
+//             if(i > 0 && nums[i] == nums[i-1])continue ;
+//             int j = i+1;
+//             int k = nums.size()-1;
+
+//             while(j < k ){
+//                 int sum = nums[i] + nums[j] + nums[k];
+//                 if(sum == 0){
+//                     vector<int> p = {nums[i] , nums[j] , nums[k]};
+//                     temp.push_back(p);
+//                     j++;
+//                     k--;
+
+//                     while(j < k && nums[j] == nums[j-1]) j++;
+//                     while(j < k && nums[k] == nums[k+1]) k--;
+//                 }     
+//                 else if(sum < 0){
+//                     j++;
+//                 } 
+//                 else{
+//                     k--;
+//                 }
+//              }
+//         }
+//         return temp ;
+//     }
+// };
+
+// 18. 4Sum
+// class Solution {
+// public:
+//     vector<vector<int>> fourSum(vector<int>& nums, int target) {
+//         sort(nums.begin() , nums.end());
+//         vector<vector<int>> temp ;
+
+//         for(int i =0 ; i < nums.size() ; i++){
+
+//             if(i > 0  && nums[i] == nums[i-1]) continue ;
+
+//             for(int j = i+ 1; j < nums.size() ; j++ ){
+//                 if (j > i + 1 && nums[j] == nums[j - 1]) continue;
+//                 int k = j+1;
+//                 int l = nums.size()-1;
+
+//                 while(k < l){
+//                     long long sum = nums[i] ;
+//                     sum +=  nums[j] ;
+//                     sum +=  nums[k] ;
+//                     sum +=  nums[l];
+//                     if(sum == target){
+//                         vector<int> p {nums[i] , nums[j] , nums[k] , nums[l]};
+//                         temp.push_back(p);
+//                         k++;
+//                         l--;
+
+//                         while(k<l && nums[k] == nums[k-1]) k++;
+//                         while(k<l && nums[l] == nums[l+1]) l--;
+//                     }
+//                     else if(sum < target){
+//                         k++;
+//                     }
+//                     else{
+//                         l--;
+//                     }
+//                 }
+//             }
+//         }
+        
+//         return temp ;
+//     }
+// };
+
+
+// total questions solves today 8
