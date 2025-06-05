@@ -1,0 +1,138 @@
+128. longest consecutive sequence
+
+class Solution {
+public:
+    int longestConsecutive(vector<int>& nums) {
+     unordered_map<int,int>mp;
+      int len = 0;
+      for(int num: nums){
+        if(!mp[num]){
+            mp[num] = mp[num-1]+ mp[num+1]+1;
+
+            mp[num-mp[num-1]] = mp[num];
+
+            mp[num+mp[num+1]] = mp[num];
+
+            len = max(len,mp[num]);
+        }
+      }
+      return len ; 
+    }
+};
+
+
+ 3. Longest Substring Without Repeating Characters
+
+ class Solution {
+public:
+    int lengthOfLongestSubstring(string s) {
+        int maxLength = 0;
+        int left = 0;
+        unordered_map<char, int> count;
+
+        for (int right = 0; right < s.length(); right++) {
+            char c = s[right];
+            count[c] = count[c] + 1;
+            
+            while (count[c] > 1) {
+                char leftChar = s[left];
+                count[leftChar] = count[leftChar] - 1;
+                left++;
+            }
+            
+            maxLength = max(maxLength, right - left + 1);
+        }
+        
+        return maxLength;        
+    }
+
+};
+
+
+151. Reverse Words in a String
+class Solution {
+public:
+    string reverseWords(string s) {
+        reverse(s.begin(), s.end());
+        int n = s.size();
+        int left = 0;
+        int right = 0;
+        int i=0;
+        while(i<n){
+            while(i<n && s[i] == ' ')
+            i++;
+            if(i == n)
+            break;
+            while(i<n && s[i] != ' '){
+                s[right++] = s[i++];
+            }
+            reverse(s.begin() + left, s.begin() + right);
+            s[right++] =' ';
+            left = right;
+            i++;
+        }
+        s.resize(right -1);
+        return s;
+    }
+};
+
+
+5. Longest Palindromic Substring
+ class Solution {
+public:
+
+bool ispalindrome(string&s, int start, int end ){
+    while (start < end){
+        if(s[start] != s[end]){
+            return false ;
+        }
+        start++;
+        end--;
+    }
+ return true ;
+}
+
+
+    string longestPalindrome(string s) {
+        string ans ="";
+
+        for (int i =0 ; i < s.size() ; i++){
+            for (int j=i  ;j< s.size() ; j++){
+                if(ispalindrome(s,i,j)){
+                    string t = s.substr(i, j-i+1);
+                    ans =t.size()> ans.size() ? t : ans ;
+                    
+                }
+            }
+        }
+        return ans ;
+    }
+};
+
+13. Roman to Integer
+
+class Solution {
+public:
+    int romanToInt(string s) {
+        int res =0;
+        unordered_map<char, int> roman = {
+            {'I', 1},
+            {'V', 5},
+            {'X', 10},
+            {'L', 50},
+            {'C', 100},
+            {'D', 500},
+            {'M', 1000}
+        };
+
+        for(int i =0; i < s.size()-1;i++){
+            if(roman[s[i]] < roman[s[i+1]]) {
+                res -= roman[s[i]];
+            }
+            else{
+                res += roman[s[i]];
+            }
+        }
+        return res + roman[s[s.size()-1]];
+    }
+};
