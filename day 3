@@ -1,0 +1,114 @@
+// 48. Rotate Image
+class Solution {
+public:
+    void rotate(vector<vector<int>>& matrix) {
+        int n = matrix.size();
+
+        int top = 0;
+        int bottom = n-1;
+
+        while (top < bottom){
+             for (int col = 0; col < n; col++) {
+                int temp = matrix[top][col];
+                matrix[top][col] = matrix[bottom][col];
+                matrix[bottom][col] = temp;
+            }
+            top++;
+            bottom--;
+        }
+        for (int row = 0; row < n; row++) {
+            for (int col = row + 1; col < n; col++) {
+                int temp = matrix[row][col];
+                matrix[row][col] = matrix[col][row];
+                matrix[col][row] = temp;
+            }
+        }        
+    }
+};
+
+// 118. pascal's triangle 
+class Solution {
+public:
+    vector<vector<int>> generate(int numRows) {
+        if(numRows == 0) return {};
+        if(numRows == 1) return {[1]};
+
+        vector<vector<int>> prevRows = generate(numRows - 1 );
+        vector<int> newRow(numRows, 1);
+
+        for(int i =0; i< numRows -1; i++){
+            newRow[i] = prevRows.back()
+        }
+    }
+};
+
+
+// 56. Merge Intervals
+
+class Solution {
+public:
+    vector<vector<int>> merge(vector<vector<int>>& intervals) {
+        sort(intervals.begin(), intervals.end());
+        vector<vector<int>> res ;
+        vector<int> prev = intervals[0];
+        for (int i = 1; i < intervals.size(); i++) {
+                if (intervals[i][0] <= prev[1]) {
+                   
+                    prev[1] = max(prev[1], intervals[i][1]);
+                } else {
+                    res.push_back(prev);
+                    prev = intervals[i];
+                }
+            }
+
+            res.push_back(prev);
+            return res;
+
+    }
+};
+
+// 88. Merge Sorted Array
+class Solution {
+public:
+    void merge(vector<int>& nums1, int m, vector<int>& nums2, int n) {
+        int i = m - 1;
+        int j = n - 1;
+        int k = m + n - 1;
+        
+        while (j >= 0) {
+            if (i >= 0 && nums1[i] > nums2[j]) {
+                nums1[k--] = nums1[i--];
+            } else {
+                nums1[k--] = nums2[j--];
+            }
+        }
+    }
+};
+
+287. Find the Duplicate Number
+
+class Solution {
+public:
+    int findDuplicate(vector<int>& nums) {
+        int left = 1;
+        int right = nums.size()-1;
+
+        while(left < right) {
+            int mid = left + (right - left) /2;
+            int count =0;
+
+            for(int num : nums){
+                if(num <= mid){
+                    count++;
+                }
+            }
+
+            if(count > mid){
+                right = mid;
+            }else{
+                left = mid+1;
+            }
+        }
+        return left;
+    }
+};
