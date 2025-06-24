@@ -1,0 +1,113 @@
+275. H-Index II
+
+class Solution {
+public:
+    int hIndex(vector<int>& citations) {
+        int n = citations.size();
+        if(n == 0) return 0;
+        int s = 0; 
+        int e = n-1;
+        int ans = 0;
+        while(s <= e){
+            int mid = s + (e-s)/2;
+            if(citations[mid] >= n-mid){
+                ans = n -mid;
+                e = mid -1;
+            }else{
+                 s = mid+1;
+            }
+        }
+        return ans ;
+    }
+};
+
+300. Longest Increasing Subsequence 
+class Solution {
+public:
+    int lengthOfLIS(vector<int>& nums) {
+        vector<int> res;
+
+        for (int n : nums) {
+            if (res.empty() || res.back() < n) {
+                res.push_back(n);
+            } else {
+                int idx = binarySearch(res, n);
+                res[idx] = n;
+            }
+        }
+
+        return res.size();        
+    }
+
+private:
+    int binarySearch(const vector<int>& arr, int target) {
+        int left = 0;
+        int right = arr.size() - 1;
+
+        while (left <= right) {
+            int mid = (left + right) / 2;
+            if (arr[mid] == target) {
+                return mid;
+            } else if (arr[mid] > target) {
+                right = mid - 1;
+            } else {
+                left = mid + 1;
+            }
+        }
+
+        return left;
+    }    
+};
+
+349. intersection of two arrays
+
+class Solution {
+public:
+    vector<int> intersection(vector<int>& nums1, vector<int>& nums2) {
+        unordered_set<int> st(begin(nums1), end(nums1));
+
+        vector<int> result;
+
+        for(int &num : nums2) {
+            if(st.find(num) != st.end()){
+                result.push_back(num);
+                st.erase(num);
+            }
+        }
+        return result;
+    }
+};
+
+1300. Sum of Mutated Array Closest to Target
+class Solution {
+public:
+    int findBestValue(vector<int>& arr, int target) {
+        sort(arr.begin(), arr.end());
+        int n = arr.size();
+        int i =0;
+        while(i < n &&target > arr[i] * (n-i))
+        target -= arr[i++];
+        return i ==n ? arr[n-1] : int (round((target - 0.00001)/(n-i)));
+
+    }
+};
+
+729. My Calendar I
+class MyCalendar {
+    vector<pair<int, int>> bookings ;
+public:
+    MyCalendar() {
+        
+    }
+    
+    bool book(int startTime, int endTime) {
+        
+        for(auto [s , e] : bookings){
+            if(startTime < e && s < endTime ){
+                return false;
+            }
+        }
+        bookings.emplace_back(startTime, endTime);
+        return true;
+    }
+};
