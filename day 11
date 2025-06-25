@@ -1,0 +1,119 @@
+60. Permutation Sequence
+class Solution {
+public:
+    string getPermutation(int n, int k) {
+        vector<int> numbers;
+        int fact = 1;
+
+        for (int i = 1; i <= n; i++) {
+            numbers.push_back(i);
+            fact *= i;
+        }
+
+        k--; // 0-based indexing
+        string result;
+
+        for (int i = 0; i < n; i++) {
+            fact /= (n - i);
+            int index = k / fact;
+            result += to_string(numbers[index]);
+            numbers.erase(numbers.begin() + index);
+            k %= fact;
+        }
+
+        return result;
+    }
+};
+
+90. Subsets II
+class Solution {
+public:
+
+    void generateSubsets(vector<int>&nums, vector<vector<int>>& res, vector<int>& comb, int index){
+        if(index >= nums.size()){
+            res.push_back(comb);
+            return;
+        }
+
+        //include current element
+        comb.push_back(nums[index]);
+        generateSubsets(nums, res, comb, index+1);
+
+        //exclude and skip duplicates
+        comb.pop_back();
+        while(index+1 < nums.size() && nums[index]==nums[index+1]){
+            index++;
+        }
+        generateSubsets(nums, res, comb, index+1);
+    }
+    vector<vector<int>> subsetsWithDup(vector<int>& nums) {
+        sort(nums.begin(), nums.end());
+        vector<vector<int>> res;
+        vector<int> comb;
+        generateSubsets(nums, res, comb, 0);
+        return res;
+    }
+};
+
+39. Combination Sum
+class Solution {
+public:
+    void makeCombination(vector<int>& candidates, int target, int index, vector<int>& comb, int total, vector<vector<int>>& res){
+        if(total == target){
+            res.push_back(comb);
+            return;
+        }
+        if(total >target || index >= candidates.size()){
+            return ;
+        }
+        comb.push_back(candidates[index]);
+        makeCombination(candidates, target, index, comb, total + candidates[index], res );
+        comb.pop_back();
+        makeCombination(candidates, target, index +1, comb , total, res);
+
+
+    }
+    vector<vector<int>> combinationSum(vector<int>& candidates, int target) {
+        vector<vector<int>> res;
+        vector<int> comb;
+        makeCombination(candidates, target, 0, comb, 0, res );
+        return res;
+    }
+};
+
+40. Combination Sum II
+class Solution {
+public:
+
+    void makeCombinations(vector<int>& candidates, int target, int index, vector<vector<int>>& res, vector<int>& comb){
+        if(target == 0){
+            res.push_back(comb);
+            return ;
+        }
+
+        if(target <0)
+        return ;
+
+        for(int i = index;i<candidates.size();i++){
+            if(i > index && candidates[i]== candidates[i-1]){
+                continue;
+            }
+
+            if(candidates[i] > target){
+                break;
+            }
+
+            comb.push_back(candidates[i]);
+        makeCombinations(candidates, target - candidates[i], i +1, res, comb);
+        comb.pop_back();
+        }
+    }
+    vector<vector<int>> combinationSum2(vector<int>& candidates, int target) {
+       sort(candidates.begin(), candidates.end());
+        vector<vector<int>> res;
+        vector<int> comb ;
+        makeCombinations(candidates, target, 0, res, comb);
+        return res;
+
+    }
+};
