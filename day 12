@@ -1,0 +1,67 @@
+1800. Maximum Ascending Subarray Sum
+class Solution {
+public:
+    int maxAscendingSum(vector<int>& nums) {
+        int curr = nums[0];
+        int ans = nums[0];
+        for (int i = 1; i < nums.size(); i++) {
+           curr = nums[i] > nums[i - 1] ? curr + nums[i] : nums[i];
+            ans = max(ans, curr);
+        }
+        return ans;
+    }
+};
+
+2114. Maximum Number of Words Found in Sentences
+class Solution {
+public:
+    int mostWordsFound(vector<string>& sentences) {
+        int ans = 0;
+        for (auto& sen : sentences) {
+            int spaceCount = count(sen.begin(), sen.end(), ' ');
+           ans = max(ans, spaceCount + 1);
+        }
+        return ans;
+    }
+};
+
+21. Merge Two Sorted Lists
+class Solution {
+public:
+    ListNode* mergeTwoLists(ListNode* list1, ListNode* list2) {
+        ListNode temp(-1);
+        ListNode* current = &temp;
+
+        while(list1 && list2){
+            if(list1-> val <= list2->val){
+                current->next = list1;
+                list1= list1-> next;
+            }
+            else{
+                current -> next = list2;
+                list2= list2->next;
+            }
+            current = current->next;
+        }
+        current -> next = list1? list1: list2;
+        return temp.next;
+    }
+};
+
+83. Remove Duplicates from Sorted List
+class Solution {
+public:
+    ListNode* deleteDuplicates(ListNode* head) {
+       ListNode* ans = head;
+
+       while(head && head-> next){
+        if(head-> val == head->next->val){
+            head-> next = head->next->next;
+        }
+        else{
+            head = head -> next;
+        }
+       } 
+       return ans;
+    }
+};
