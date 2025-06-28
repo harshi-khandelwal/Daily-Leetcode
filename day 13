@@ -1,0 +1,88 @@
+876. Middle of the Linked List
+class Solution {
+public:
+    ListNode* middleNode(ListNode* head) {
+        // fast and slow approach 
+        // fast will take 2 step at a time 
+        // slow will one step so when fast reaches the end slow will be at the middle 
+        if(head == nullptr || head->next == nullptr){
+            return head;
+        }
+        ListNode* slow = head;
+        ListNode* fast = head;
+
+        while(fast != nullptr && fast->next != nullptr){
+            slow = slow->next;
+            fast = fast->next->next;
+        }
+        return slow;
+    }
+};
+
+234. Palindrome Linked List
+class Solution {
+public:
+    bool isPalindrome(ListNode* head) {
+        vector<int> ans ;
+
+        while(head != nullptr){
+            ans.push_back(head->val);
+            head = head->next;
+
+        }
+
+        int s = 0;
+        int e = ans.size() -1;
+
+        while(s < e){
+            if(ans[s] != ans[e]){
+                return false ;
+            }
+            s++;
+            e--;
+        }
+        return true;
+    }
+};
+
+160. Intersection of Two Linked Lists
+class Solution {
+public:
+    ListNode *getIntersectionNode(ListNode *headA, ListNode *headB) {
+        ListNode* temp1 = headA;
+        ListNode* temp2 = headB;
+
+        while(temp1 != temp2){
+            temp1= temp1-> next;
+            temp2 = temp2->next;
+
+            if(temp1 == temp2) return temp1;
+
+            if(temp1 == NULL) temp1 = headB;
+            if(temp2 == NULL) temp2 = headA;
+        }
+        return temp1;
+    }
+};
+
+19. Remove Nth Node From End of List
+class Solution {
+public:
+    ListNode* removeNthFromEnd(ListNode* head, int n) {
+        ListNode* res = new ListNode(0, head);
+        ListNode* temp = res;
+
+        for(int i=0; i< n;i++){
+            head= head->next;
+        }
+        while(head != nullptr){
+            head = head->next;
+            temp = temp->next;
+        }
+        temp -> next = temp->next->next;
+
+        ListNode* result = res->next;
+        delete res;
+        return result;
+    }
+};
