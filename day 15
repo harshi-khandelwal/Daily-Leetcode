@@ -1,0 +1,96 @@
+104. Maximum Depth of Binary Tree
+class Solution {
+public:
+    int maxDepth(TreeNode* root) {
+        if(root == NULL){
+        return 0 ;
+    }
+
+    int leftHeight = maxDepth(root -> left);
+    int rightHeight = maxDepth(root -> right);
+
+    int ans = max(leftHeight , rightHeight) + 1 ;
+
+    return ans;
+
+    }
+};
+
+110. Balanced Binary Tree
+
+class Solution {
+public:
+
+    int height(TreeNode * root){
+        //base case 
+        if(root == NULL){
+            return 0;
+        }
+
+        int leftHeight = height(root -> left);
+        int rightHeight = height(root -> right);
+        int ans = 1 + max(leftHeight , rightHeight);
+        return ans ;
+
+    }
+
+    bool isBalanced(TreeNode* root) {
+       //base case 
+       if(root == NULL){
+        return true ;
+       } 
+
+       int leftHeight = height(root -> left);
+       int rightHeight = height(root -> right);
+       int diff = abs(leftHeight - rightHeight);
+
+       bool ans1 = (diff <= 1);
+
+       bool leftAns = isBalanced(root -> left);
+       bool rightAns = isBalanced(root -> right);
+
+       if(ans1 && leftAns && rightAns){
+        return true ;
+       } 
+       else return false ;
+
+    }
+};
+
+124. Binary Tree Maximum Path Sum
+class Solution {
+public:
+
+    int height(TreeNode* root, int& maxi){
+        if(root == NULL){
+            return 0;
+        }
+
+        int lh = max(0,height(root->left, maxi));
+        int rh = max(0,height(root->right, maxi));
+
+        maxi = max(maxi, lh+rh+root->val);
+        return max(rh,lh) + root-> val;
+    }
+    int maxPathSum(TreeNode* root) {
+        int maxi = INT_MIN;
+        height(root, maxi);
+        return maxi;
+    }
+};
+
+ Same Tree
+ class Solution {
+public:
+    bool isSameTree(TreeNode* p, TreeNode* q) {
+        if(p == NULL && q == NULL){
+            return true;
+        }
+
+        if(p && q && p-> val == q -> val){
+            return isSameTree(p -> left, q-> left) && isSameTree(p -> right, q-> right);
+        }
+
+        return false;
+    }
+};
