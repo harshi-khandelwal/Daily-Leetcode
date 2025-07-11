@@ -1,0 +1,152 @@
+225. Implement Stack using Queues
+class MyStack {
+public:
+    queue<int> q;
+    MyStack() {
+        
+    }
+    
+    void push(int x) {
+        q.push(x);
+        for(int i =0; i< q.size()-1; i++){
+            q.push(q.front());
+            q.pop();
+        }
+    }
+    
+    int pop() {
+        int top = q.front();
+        q.pop();
+        return top;
+    }
+    
+    int top() {
+        return q.front();
+    }
+    
+    bool empty() {
+        return q.empty();
+    }
+};
+
+232. Implement Queue using Stacks
+class MyQueue {
+public:
+    stack<int> s;
+    stack<int> temp;
+    MyQueue() {
+        
+    }
+    
+    void push(int x) {
+        s.push(x);
+    }
+    
+    int pop() {
+        peek();
+        int val = temp.top();
+        temp.pop();
+        return val;
+    }
+    
+    int peek() {
+        if(temp.empty()){
+            while(!s.empty()){
+                temp.push(s.top());
+                s.pop();
+            }
+        }
+        return temp.top();
+    }
+    
+    bool empty() {
+        return s.empty() && temp.empty();
+    }
+};
+
+20. Valid Parentheses
+class Solution {
+public:
+    bool isValid(string s) {
+        stack<char> st ;
+        for(int i =0 ; i<s.length() ; i++){
+            char ch = s[i];
+
+            if(ch == '(' || ch == '{' || ch == '['){
+                st.push(ch);
+            }
+
+            else{
+                if(!st.empty()){
+                    char topCh = st.top();
+                    if(ch == ')' && topCh == '('){
+                        st.pop();
+                    }
+
+                    else if(ch == '}' && topCh == '{'){
+                        st.pop();
+                    }
+
+                    else if(ch == ']' && topCh == '['){
+                        st.pop();
+                    }
+                    else{
+                        return false ;
+                    }
+                }
+                else{
+                    return false;
+                }
+            }
+        }
+        if(st.empty()){
+            return true ;
+        }
+        else
+        return false ;
+    }
+};
+
+496. Next Greater Element I
+class Solution {
+public:
+    vector<int> nextGreaterElement(vector<int>& nums1, vector<int>& nums2) {
+        int n = nums2.size();
+        unordered_map<int,int> nge(n);
+        stack<int> st;
+        for(int i=n-1;i>=0;i--){
+            int it=nums2[i];
+            while(!st.empty() && st.top()<=nums2[i]){
+                st.pop();
+            }
+            if(st.empty()) nge[it] = -1;
+            else nge[it] = st.top();
+            st.push(nums2[i]);
+        }
+        vector<int> ans;
+        for(int i=0;i<nums1.size();i++){
+            ans.push_back(nge[nums1[i]]);
+        }
+        return ans;
+    }
+};
+
+901. Online Stock Span
+class StockSpanner {
+public:
+    stack<pair<int,int>> st ;
+  
+    StockSpanner() {
+        
+    }
+    
+    int next(int price) {
+        int span = 1 ;
+        while(!st.empty() && st.top().first <= price){
+            span += st.top().second ;
+            st.pop();
+        }
+        st.push({price , span});
+        return span ;
+    }
+};
